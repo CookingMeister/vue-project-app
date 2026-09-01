@@ -3,7 +3,14 @@
     <div class="site-header__scrim"></div>
 
     <RouterLink to="/" class="site-header__brand" :aria-label="`${site.brand} - home`">
-      <AppIcon name="chefMark" size="2.25rem" class="site-header__logo" />
+      <img
+        :src="brandIcon"
+        alt=""
+        class="site-header__logo"
+        width="52"
+        height="36"
+        aria-hidden="true"
+      />
       <span class="fs-4 mx-2">{{ site.brand }}</span>
     </RouterLink>
 
@@ -19,8 +26,9 @@
 import { onMounted, onUnmounted, ref, useTemplateRef } from 'vue'
 import { RouterLink } from 'vue-router'
 import NavLink from './NavLink.vue'
-import AppIcon from './AppIcon.vue'
 import { site } from '@/data/site.js'
+
+const brandIcon = '/img/fullstackchef.png'
 
 const navItems = [
   { url: '/', name: 'About' },
@@ -107,12 +115,13 @@ onUnmounted(() => {
 }
 
 .site-header__logo {
-  color: var(--c-cream);
-  transition: color var(--dur-base) var(--ease);
+  width: 3.25rem;
+  height: 2.25rem;
+  object-fit: contain;
+  mix-blend-mode: screen;
 }
 
-.site-header--scrolled .site-header__brand,
-.site-header--scrolled .site-header__logo {
+.site-header--scrolled .site-header__brand {
   color: var(--c-accent);
 }
 </style>

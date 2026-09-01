@@ -128,13 +128,9 @@ import { about, site } from '@/data/site.js'
 @media (min-width: 992px) {
   .about {
     --portrait-size: 13.5rem;
-    /*
-     * Beside the heading rather than under it, a top-aligned portrait reads as
-     * crowding the title. Dropping it clear of the h1's first line settles it
-     * against the subheading instead. Raise toward 4rem to sit lower, or to 0
-     * to align flush with the top of the title again.
-     */
-    --portrait-offset: 2.5rem;
+    /* A small drop keeps the portrait from crowding the title without leaving
+       a conspicuous blank column above it. */
+    --portrait-offset: 1.5rem;
   }
 
   .about__grid {
