@@ -65,7 +65,6 @@ import { about, site } from '@/data/site.js'
   /* Same header-relative rhythm as every other page - see styles.css. */
   padding-top: calc(var(--header-height) + var(--section-lead));
   padding-bottom: 4rem;
-  min-height: 90vh;
   color: var(--c-cream);
 }
 

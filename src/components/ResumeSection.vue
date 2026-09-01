@@ -66,8 +66,10 @@ import { skillCategories } from '@/data/site.js'
 }
 
 .skill-list {
+  width: 100%;
+  max-width: 72rem;
   margin: 0;
-  /* Closes the top of the list; each row supplies its own bottom rule. */
+  /* Matching rules close the list and keep the flat layout visually anchored. */
   border-top: var(--border-hairline);
 }
 

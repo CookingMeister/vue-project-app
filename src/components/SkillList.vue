@@ -19,35 +19,38 @@ defineProps({
    list reads as a spec sheet rather than a deck of cards. */
 .skill-row {
   display: grid;
-  gap: 0.65rem;
-  padding: 1.05rem 0;
+  gap: 0.75rem;
+  padding: 1.25rem 0;
   border-bottom: var(--border-hairline);
-}
-
-.skill-row:last-child {
-  border-bottom: none;
 }
 
 .skill-row__label {
   margin: 0;
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0.025em;
   color: var(--c-accent);
 }
 
 .skill-row__chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 0.5rem;
   margin: 0;
+}
+
+/* Resume tags are intentionally quieter than project tags: they organize a
+   dense reference list rather than advertising individual technologies. */
+.chip {
+  background: rgba(0, 0, 0, 0.16);
+  border-color: rgba(250, 235, 215, 0.2);
+  border-radius: var(--radius-md);
 }
 
 /* Label moves into its own column, so each category reads as one line. */
 @media (min-width: 768px) {
   .skill-row {
-    grid-template-columns: 12rem minmax(0, 1fr);
+    grid-template-columns: 14rem minmax(0, 1fr);
     gap: 1.5rem;
     align-items: baseline;
   }

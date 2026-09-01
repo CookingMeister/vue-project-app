@@ -143,18 +143,6 @@ export const projects = [
       { type: 'demo', url: 'https://cookingmeister.github.io/weather-dashboard/' },
       { type: 'github', url: 'https://github.com/CookingMeister/weather-dashboard' }
     ]
-  },
-  {
-    id: 'note-taker',
-    title: 'Note Taker',
-    description: 'Express note-taking app persisting records to a JSON store.',
-    tags: ['Node', 'Express', 'JSON'],
-    image: '/img/Note.png',
-    alt: 'Note taker with add, edit and delete note functionality',
-    links: [
-      { type: 'demo', url: 'https://note-taker-express-2rft.onrender.com/' },
-      { type: 'github', url: 'https://github.com/CookingMeister/note-taker-express' }
-    ]
   }
 ]
 
