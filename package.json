@@ -4,32 +4,36 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev:server": "cd server && node server.js",
-    "dev:frontend": "vite",
-    "dev": "concurrently \"npm run dev:server\" \"npm run dev:frontend\"",
-    "dev:docker": "concurrently \"npm run dev:server\" \"vite --host 0.0.0.0\"",
-    "build": "vite build",
+    "dev": "vite",
+    "dev:docker": "vite --host 0.0.0.0",
+    "build": "npm run build:client && npm run build:server && npm run prerender",
+    "build:client": "vite build",
+    "build:server": "vite build --ssr src/entry-server.js --outDir dist-ssr",
+    "prerender": "node scripts/prerender.mjs",
     "preview": "vite preview",
+    "test": "vitest run",
     "test:unit": "vitest",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
+    "lint": "eslint . --fix",
+    "format": "prettier --write src/",
+    "resume": "node resume/build-resume.mjs"
   },
   "dependencies": {
-    "bootstrap": "^5.3.3",
-    "vue": "^3.4.29",
-    "vue-router": "^4.3.3"
+    "@fontsource-variable/roboto": "^5.3.0",
+    "bootstrap": "^5.3.8",
+    "vue": "^3.5.42",
+    "vue-router": "^5.3.0"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "^1.8.0",
-    "@vitejs/plugin-vue": "^5.0.5",
-    "@vue/eslint-config-prettier": "^9.0.0",
-    "@vue/test-utils": "^2.4.6",
-    "concurrently": "^9.1.2",
-    "eslint": "^8.57.0",
-    "eslint-plugin-vue": "^9.23.0",
-    "jsdom": "^24.1.0",
-    "prettier": "^3.2.5",
-    "vite": "^5.3.1",
-    "vitest": "^1.6.0"
+    "@eslint/js": "^10.0.1",
+    "@vitejs/plugin-vue": "^6.0.8",
+    "@vue/eslint-config-prettier": "^10.2.0",
+    "@vue/test-utils": "^2.5.0",
+    "eslint": "^10.9.1",
+    "eslint-plugin-vue": "^10.10.0",
+    "globals": "^17.11.0",
+    "jsdom": "^29.1.1",
+    "prettier": "^3.9.6",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
   }
 }

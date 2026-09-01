@@ -1,14 +1,43 @@
+# Two profiles, so neither starts by accident:
+#   docker compose --profile dev up          # Vite dev server, hot reload
+#   docker compose --profile prod up -d --build   # nginx serving the built site
 services:
-  app:
-    build: .
+  dev:
+    profiles: ['dev']
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     ports:
-      - "5173:5173"  # Vue app port
-      - "3001:3001"  # Express server port
+      - '5173:5173'
     volumes:
       - .:/app
       - /app/node_modules
     environment:
       - NODE_ENV=development
       - HOST=0.0.0.0
-    env_file:
-      - ./server/.env  # Email credentials
+
+  web:
+    profiles: ['prod']
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    # Publish a port when nginx is reached directly. Remove this when Traefik
+    # fronts it - the container only needs to be on Traefik's network.
+    ports:
+      - '8080:80'
+    # Traefik picks these up when it is running with the Docker provider.
+    # `traefik.enable` stays false until you opt in, so this file is inert
+    # without Traefik.
+    labels:
+      - 'traefik.enable=false'
+      - 'traefik.http.routers.portfolio.rule=Host(`fullstackchef.dev`)'
+      - 'traefik.http.routers.portfolio.entrypoints=websecure'
+      - 'traefik.http.routers.portfolio.tls.certresolver=letsencrypt'
+      - 'traefik.http.services.portfolio.loadbalancer.server.port=80'
+    # networks:
+    #   - traefik
+
+# networks:
+#   traefik:
+#     external: true

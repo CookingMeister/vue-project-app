@@ -1,42 +1,216 @@
-/* Body Styling */
+/* ==========================================================================
+   Fonts
 
+   Roboto self-hosted from `@fontsource-variable/roboto` (Apache-2.0): no
+   third-party request on first paint and no visitor IP handed to another origin.
+   One variable file covers every weight the site uses. Only the latin subset is
+   declared; the package's other eight would be emitted into `dist/` unserved.
+   ========================================================================== */
+
+@font-face {
+  font-family: 'Roboto Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('@fontsource-variable/roboto/files/roboto-latin-wght-normal.woff2')
+    format('woff2-variations');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ==========================================================================
+   Design tokens
+   Every colour, gradient and timing used by the site is declared once here.
+   Components reference the token, never the literal value.
+   ========================================================================== */
+
+:root {
+  /* The site is dark-only; tells the UA to render scrollbars and controls to match. */
+  color-scheme: dark;
+
+  /* Brand palette - midnight navy ground, cyan accent, cream text. The ground is
+     kept flat in luminance so cream and cyan both clear AA at either end. */
+  --c-ground-deep: #0a1a2f;
+  --c-ground-soft: #14375e;
+  --c-cream: antiquewhite;
+  --c-accent: #0dcaf0;
+  /* Clears AA (4.5:1) as normal text at both ends of the ground gradient. */
+  --c-alert: #ff7488;
+  --c-ink: #333;
+
+  /* Surfaces */
+  --grad-brand: linear-gradient(135deg, var(--c-ground-deep), var(--c-ground-soft));
+  /* Cards sit *above* the ground: on a dark UI, elevation reads as lighter. */
+  --surface-card: linear-gradient(135deg, #1b3a5c, #21486f);
+  --surface-scrim: rgba(0, 0, 0, 0.55);
+  --surface-sunken: rgba(0, 0, 0, 0.3);
+  /* Faint divider for flat, card-free lists. */
+  --border-hairline: 1px solid rgba(250, 235, 215, 0.14);
+
+  /* Borders + edges */
+  --border-soft: 1px solid rgba(250, 235, 215, 0.5);
+  --radius-sm: 3px;
+  --radius-md: 0.75rem;
+  --radius-pill: 50px;
+
+  /* Elevation */
+  --shadow-card: 0 18px 50px -12px rgba(0, 0, 0, 0.65);
+  --shadow-hover: 0 24px 60px -12px rgba(0, 0, 0, 0.75);
+
+  /* Type */
+  --font-body: 'Roboto Variable', Roboto, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --text-shadow-title: 1px 1px 3px black;
+
+  /* Motion */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fast: 0.2s;
+  --dur-base: 0.3s;
+  --dur-slow: 0.7s;
+
+  /* Layout */
+  /* Fallback only - HeaderComponent overwrites this with the measured height. */
+  --header-height: 92px;
+  /* Clear space between the header and the first thing on the page. */
+  --section-lead: 2.5rem;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* Keeps in-page anchor targets clear of the fixed header. */
+  scroll-padding-top: var(--header-height);
+}
+
+/*
+ * The gradient is painted here as well as on `.section-panel`: `mode="out-in"`
+ * and lazy-loaded chunks both leave `<main>` empty for a moment, which would
+ * otherwise flash the browser's white through.
+ *
+ * `fixed` keeps it still while the page scrolls, so it reads as one continuous
+ * backdrop rather than restarting per section.
+ */
 body {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    color: #333;
-  }
+  margin: 0;
+  padding: 0;
+  color: var(--c-ink);
+  font-family: var(--font-body);
+  background-image: var(--grad-brand);
+  background-attachment: fixed;
+}
 
-  /* Profile Image */
-  
-  .profile-pic {
-    border: solid 6px antiquewhite;
-    object-fit: cover;
-    aspect-ratio: 1 / 1;
-    z-index: 100;
-  }
-  
-  .profile-sm {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-  }
+/* A visible focus ring on every interactive element, for keyboard users. */
+:focus-visible {
+  outline: 3px solid var(--c-accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
 
-  /* Footer socials */
+/* ==========================================================================
+   Shared layout primitives
+   ========================================================================== */
 
-  .social i {
-    color: antiquewhite;
-  }
+/* The brand gradient panel behind every page section. Top spacing is measured
+   from the header rather than the viewport, so it holds at any window height. */
+.section-panel {
+  background-image: var(--grad-brand);
+  color: var(--c-cream);
+  padding-top: calc(var(--header-height) + var(--section-lead));
+  padding-bottom: 6rem;
+  min-height: 100vh;
+}
 
-  .btn {
-    z-index: 100;
+@media (min-width: 768px) {
+  :root {
+    --section-lead: 3.5rem;
   }
-  .card {
-    z-index: 5;
-  }
+}
 
-  .btn:hover {
-    transform: scale(1.03);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+.section-title {
+  margin: 0 0 1.25rem;
+  color: var(--c-cream);
+  text-shadow: var(--text-shadow-title);
+  letter-spacing: 0.01em;
+}
+
+.section-rule {
+  border-top: 1px solid var(--c-cream);
+  opacity: 0.6;
+  margin: 0 0 2.5rem;
+}
+
+/* Skip link - first tab stop on the page, hidden until focused. */
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  translate: -50% -150%;
+  z-index: 100;
+  padding: 0.75rem 1.5rem;
+  background: var(--c-cream);
+  color: var(--c-ground-deep);
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  transition: translate var(--dur-base) var(--ease);
+}
+
+.skip-link:focus-visible {
+  translate: -50% 0;
+}
+
+/* ==========================================================================
+   Components
+   ========================================================================== */
+
+.profile-pic {
+  border: solid 6px var(--c-cream);
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+}
+
+/* Small pill, shared by resume skills and project tech tags. */
+.chip {
+  display: inline-block;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: var(--c-cream);
+  background: var(--surface-sunken);
+  border: 1px solid rgba(250, 235, 215, 0.28);
+  border-radius: var(--radius-pill);
+}
+
+.social-link {
+  color: var(--c-cream);
+  transition: color var(--dur-base) var(--ease);
+}
+
+.social-link:hover,
+.social-link:focus-visible {
+  color: var(--c-accent);
+}
+
+/* ==========================================================================
+   Motion preferences
+   Honoured globally so no component has to remember to opt in.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
-  
+}

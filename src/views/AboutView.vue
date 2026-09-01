@@ -3,5 +3,5 @@
 </template>
 
 <script setup>
-import About from '@/components/AboutSection.vue';
+import About from '@/components/AboutSection.vue'
 </script>

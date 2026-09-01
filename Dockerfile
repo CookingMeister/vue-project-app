@@ -1,24 +1,22 @@
-FROM node:18-alpine
+# Build the prerendered site, then serve it as static files. The Node stage is
+# discarded, so the published image carries nginx and dist/ and nothing else.
+
+FROM node:24-alpine AS build
 
 WORKDIR /app
 
-# Install dependencies for main app
 COPY package*.json ./
-RUN npm install
+RUN npm ci
 
-# Install dependencies for server
-COPY server/package*.json ./server/
-RUN cd server && npm install
-
-# Copy the rest of the application
 COPY . .
+RUN npm run build
 
-# Expose app and server ports
-EXPOSE 5173 3001
+FROM nginx:1.29-alpine AS serve
 
-# Use this for production
-# RUN npm run build
-# CMD ["node", "server/server.js"]
+COPY deploy/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/dist /usr/share/nginx/html
 
-# Use this for development
-CMD ["npm", "run", "dev:docker"]
+EXPOSE 80
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s \
+    CMD wget -qO- http://localhost/ >/dev/null || exit 1

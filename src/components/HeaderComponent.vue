@@ -1,75 +1,118 @@
 <template>
-  <section id="Heading" class="">
-    <header :style="{
-      fontFamily: 'Roboto, sans-serif',
-      position: 'fixed',
-      display: 'flex',
-      flexWrap: 'wrap',
-      justifyContent: 'center',
-      top: '0',
-      padding: '26px 0',
-      width: '100%',
-      zIndex: '10',
-      backgroundImage: 'url(\'/img/Designer.png\')',
-      backgroundPosition: 'center',
-      paddingLeft: '1rem',
-      fontWeight: '500',
-    }">
-      <!-- Header Overlay -->
-      <div :style="{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backdropFilter: 'blur(4px)',
-        backgroundColor: 'rgba(0, 0, 0, 0.55)',
-        zIndex: -1
-      }"></div>
-      <div class="d-flex align-items-center mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
-        :style="{ color: isScrolled ? '#faebd7' : '#C20024' }">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" :fill="isScrolled ? '#0dcaf0' : 'antiquewhite'"
-          class="bi bi-journal-code ml-1" viewBox="0 0 16 16">
-          <path fill-rule="evenodd"
-            d="M8.646 5.646a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L10.293 8 8.646 6.354a.5.5 0 0 1 0-.708zm-1.292 0a.5.5 0 0 0-.708 0l-2 2a.5.5 0 0 0 0 .708l2 2a.5.5 0 0 0 .708-.708L5.707 8l1.647-1.646a.5.5 0 0 0 0-.708z" />
-          <path
-            d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z" />
-          <path
-            d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z" />
-        </svg>
-        <span class="fs-4 head-title mx-2" :style="{ color: isScrolled ? '#0dcaf0' : 'antiquewhite' }">
-          Meister
-        </span>
-      </div>
+  <header ref="headerEl" class="site-header" :class="{ 'site-header--scrolled': isScrolled }">
+    <div class="site-header__scrim"></div>
 
+    <RouterLink to="/" class="site-header__brand" :aria-label="`${site.brand} - home`">
+      <AppIcon name="chefMark" size="2.25rem" class="site-header__logo" />
+      <span class="fs-4 mx-2">{{ site.brand }}</span>
+    </RouterLink>
+
+    <nav aria-label="Main">
       <ul class="nav nav-pills">
-        <NavLink url="/" name="About" :isScrolled="isScrolled" />
-        <NavLink url="/portfolio" name="Portfolio" :isScrolled="isScrolled" />
-        <NavLink url="/resume" name="Resume" :isScrolled="isScrolled" />
-        <NavLink url="/contact" name="Contact" :isScrolled="isScrolled" />
+        <NavLink v-for="item in navItems" :key="item.url" :url="item.url" :name="item.name" />
       </ul>
-    </header>
-  </section>
+    </nav>
+  </header>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
-import NavLink from './NavLink.vue';
+import { onMounted, onUnmounted, ref, useTemplateRef } from 'vue'
+import { RouterLink } from 'vue-router'
+import NavLink from './NavLink.vue'
+import AppIcon from './AppIcon.vue'
+import { site } from '@/data/site.js'
 
-const isScrolled = ref(false);
+const navItems = [
+  { url: '/', name: 'About' },
+  { url: '/portfolio', name: 'Portfolio' },
+  { url: '/resume', name: 'Resume' },
+  { url: '/contact', name: 'Contact' }
+]
+
+const isScrolled = ref(false)
+const headerEl = useTemplateRef('headerEl')
 
 const handleScroll = () => {
-  const scrollHeight = window.scrollY;
-  const shouldChangeColor = scrollHeight > 20;
+  isScrolled.value = window.scrollY > 20
+}
 
-  isScrolled.value = shouldChangeColor;
-};
+/**
+ * Publishes the header's real height as `--header-height` on :root, which page
+ * sections use to reserve space. A fixed value goes stale as soon as the header
+ * grows - most visibly on narrow screens, where `flex-wrap` drops the nav onto a
+ * second line and page titles slide underneath it.
+ */
+const measureHeader = () => {
+  const height = headerEl.value?.offsetHeight
+  if (height) {
+    document.documentElement.style.setProperty('--header-height', `${height}px`)
+  }
+}
+
+let observer = null
 
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll);
-});
+  // `passive`: this listener never calls preventDefault, so scrolling can stay
+  // on the compositor thread.
+  window.addEventListener('scroll', handleScroll, { passive: true })
+  handleScroll()
+
+  measureHeader()
+
+  // Re-measure on wrap, font load or zoom, falling back to the one-time
+  // measurement above where ResizeObserver is unavailable.
+  if (typeof ResizeObserver !== 'undefined' && headerEl.value) {
+    observer = new ResizeObserver(measureHeader)
+    observer.observe(headerEl.value)
+  }
+})
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
-});
+  window.removeEventListener('scroll', handleScroll)
+  observer?.disconnect()
+})
 </script>
+
+<style scoped>
+.site-header {
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 26px 1rem;
+  font-weight: 500;
+  background-image: url('/img/Designer.png');
+  background-position: center;
+}
+
+.site-header__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  backdrop-filter: blur(4px);
+  background-color: var(--surface-scrim);
+}
+
+.site-header__brand {
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+  color: var(--c-cream);
+  text-decoration: none;
+  transition: color var(--dur-base) var(--ease);
+}
+
+.site-header__logo {
+  color: var(--c-cream);
+  transition: color var(--dur-base) var(--ease);
+}
+
+.site-header--scrolled .site-header__brand,
+.site-header--scrolled .site-header__logo {
+  color: var(--c-accent);
+}
+</style>

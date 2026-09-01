@@ -1,27 +1,35 @@
 <template>
-  <div :style="{
-    fontFamily: 'Roboto, sans-serif',
-    backgroundImage:
-      'linear-gradient(135deg, rgb(30, 6, 245), rgba(0, 110, 255, 0.87))',
-    height: '90vh',
-    paddingTop: '30vh',
-    color: 'antiquewhite',
-  }">
+  <section class="section-panel error-page">
     <Transition name="slide" appear>
       <div class="container text-center">
-        <h1 :style="{ color: '#C20024', textShadow: '1px 1px 3px black' }">
-          404 Page Not Found
-        </h1>
-        <p>The page you are looking for is not available.</p>
+        <h1 class="error-page__code">404 &mdash; Page Not Found</h1>
+        <p class="mb-4">The page you are looking for is not available.</p>
+        <RouterLink class="btn btn-outline-light rounded-pill px-4" to="/">
+          Back to home
+        </RouterLink>
       </div>
     </Transition>
-  </div>
+  </section>
 </template>
 
+<script setup>
+import { RouterLink } from 'vue-router'
+</script>
+
 <style scoped>
+.error-page {
+  padding-top: 30vh;
+  min-height: 90vh;
+}
+
+.error-page__code {
+  color: var(--c-alert);
+  text-shadow: var(--text-shadow-title);
+}
+
 .slide-enter-active,
 .slide-leave-active {
-  transition: all 0.3s ease;
+  transition: all var(--dur-base) ease;
 }
 
 .slide-enter-from,

@@ -1,14 +1,11 @@
+// Bootstrap first so our own tokens and component styles override its defaults.
+import 'bootstrap/dist/css/bootstrap.min.css'
 import './assets/styles.css'
 
-import { createApp } from 'vue'
+import { createWebHistory } from 'vue-router'
+import { createVueApp } from './app.js'
 
-import 'bootstrap/dist/css/bootstrap.min.css'
+const { app, router } = createVueApp(createWebHistory(import.meta.env.BASE_URL))
 
-import App from './App.vue'
-import router from './router'
-
-const app = createApp(App)
-
-app.use(router)
-
-app.mount('#app')
+// Wait for the route to resolve so hydration matches the prerendered markup.
+router.isReady().then(() => app.mount('#app'))

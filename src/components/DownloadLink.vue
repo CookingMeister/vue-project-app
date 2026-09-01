@@ -1,13 +1,26 @@
 <template>
-  <div class="text-center mb-2 pb-5">
-    <a href="/Resume_Apr2024.docx" download :style="{
-      textDecoration: 'none',
-      width: 'max-content',
-      transition: 'all 0.3s',
-      borderRadius: '50px'
-    }" class="btn btn-outline-info btn-lg px-4">
-      <i class="fas fa-file-download me-3"></i>
-      Download Resume
-    </a>
-  </div>
+  <a class="btn btn-outline-info rounded-pill px-4 download-link" :href="resumeFile" download>
+    <AppIcon name="download" class="me-2" />
+    Download Resume
+  </a>
 </template>
+
+<script setup>
+import AppIcon from './AppIcon.vue'
+import { resumeFile } from '@/data/site.js'
+</script>
+
+<style scoped>
+.download-link {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  transition:
+    transform var(--dur-base) var(--ease),
+    box-shadow var(--dur-base) var(--ease);
+}
+
+.download-link:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+</style>

@@ -3,5 +3,5 @@
 </template>
 
 <script setup>
-import ContactForm from '@/components/ContactSection.vue';
+import ContactForm from '@/components/ContactSection.vue'
 </script>

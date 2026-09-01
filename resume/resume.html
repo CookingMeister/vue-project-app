@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Shawn Meister - Full-Stack Developer</title>
+    <style>
+      /*
+       * Print-first stylesheet. This file is the *source* for public/resume.pdf -
+       * edit here and re-run `npm run resume`, rather than editing the PDF.
+       *
+       * Everything is a single column of real text: no floats, no multi-column
+       * layout, no images, no text baked into graphics. Applicant tracking
+       * systems read the PDF's text layer top to bottom, and anything clever
+       * with columns comes back out of them interleaved and unreadable.
+       */
+      @page {
+        size: letter;
+        margin: 0.4in 0.5in;
+      }
+
+      :root {
+        --ink: #16202c;
+        --ink-soft: #4a5766;
+        --rule: #c2cbd6;
+        --accent: #0a1a2f;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        font-family: Calibri, Carlito, "Segoe UI", system-ui, sans-serif;
+        font-size: 9.4pt;
+        line-height: 1.2;
+      }
+
+      /* ---- Header ---------------------------------------------------- */
+
+      .name {
+        margin: 0;
+        font-size: 19pt;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        color: var(--accent);
+      }
+
+      .role {
+        margin: 0.08rem 0 0.28rem;
+        font-size: 10.5pt;
+        font-weight: 600;
+        color: var(--ink-soft);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .contact {
+        margin: 0;
+        font-size: 9.4pt;
+        color: var(--ink-soft);
+      }
+
+      .contact a {
+        color: var(--ink-soft);
+        text-decoration: none;
+      }
+
+      .contact .sep {
+        padding: 0 0.4em;
+        color: var(--rule);
+      }
+
+      .header-rule {
+        height: 2px;
+        background: var(--accent);
+        margin: 0.4rem 0 0.55rem;
+      }
+
+      /* ---- Sections -------------------------------------------------- */
+
+      section {
+        margin-bottom: 0.38rem;
+      }
+
+      h2 {
+        margin: 0 0 0.24rem;
+        padding-bottom: 0.1rem;
+        border-bottom: 1px solid var(--rule);
+        font-size: 10pt;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+
+      /* ---- Entries (job / school / project) -------------------------- */
+
+      .entry {
+        margin-bottom: 0.38rem;
+        /* Never split one job across a page break. */
+        break-inside: avoid;
+      }
+
+      .entry:last-child {
+        margin-bottom: 0;
+      }
+
+      .entry-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 1rem;
+      }
+
+      .entry-title {
+        font-weight: 700;
+      }
+
+      .entry-meta {
+        font-size: 9.1pt;
+        color: var(--ink-soft);
+        white-space: nowrap;
+      }
+
+      .entry-sub {
+        font-size: 9.4pt;
+        color: var(--ink-soft);
+        font-style: italic;
+      }
+
+      /* ---- Bullets --------------------------------------------------- */
+
+      ul {
+        margin: 0.16rem 0 0;
+        padding-left: 1.05rem;
+      }
+
+      li {
+        margin-bottom: 0.08rem;
+      }
+
+      li::marker {
+        color: var(--ink-soft);
+      }
+
+      /* ---- Labelled rows (skills) ------------------------------------ */
+
+      .row {
+        margin-bottom: 0.14rem;
+        padding-left: 6.4rem;
+        text-indent: -6.4rem;
+      }
+
+      .row:last-child {
+        margin-bottom: 0;
+      }
+
+      .row-label {
+        display: inline-block;
+        width: 6.4rem;
+        text-indent: 0;
+        font-weight: 700;
+        vertical-align: top;
+      }
+
+      .note {
+        margin: 0.22rem 0 0;
+        font-size: 9.4pt;
+        color: var(--ink-soft);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1 class="name">Shawn Meister</h1>
+      <p class="role">Full-Stack Developer</p>
+      <p class="contact">
+        Fredericton, NB, Canada <span class="sep">|</span>
+        <a href="mailto:ss.meister@hotmail.com">ss.meister@hotmail.com</a>
+        <span class="sep">|</span>
+        <a href="https://fullstackchef.dev">fullstackchef.dev</a> <span class="sep">|</span>
+        <a href="https://github.com/CookingMeister">github.com/CookingMeister</a>
+        <span class="sep">|</span>
+        <a href="https://www.linkedin.com/in/shawn-meister/">linkedin.com/in/shawn-meister</a>
+      </p>
+      <div class="header-rule"></div>
+    </header>
+
+    <section>
+      <h2>Summary</h2>
+      <p style="margin: 0">
+        Developer working on language runtime internals and on the applications built on top of
+        them. I extend the PL/B runtime in C and C++, and modernize long-running systems in PHP and
+        JavaScript - three client sites delivered end to end on Azure and IIS 10. Most recently
+        wrote a regular expression engine from scratch in C. Outside work I run a Kubernetes cluster
+        on Talos Linux delivered by GitOps.
+      </p>
+    </section>
+
+    <section>
+      <h2>Technical Skills</h2>
+      <p class="row">
+        <span class="row-label">Languages</span>JavaScript (ES6+), PHP, C and C++, PL/B and Visual
+        PL/B, SQL, HTML and CSS, YAML
+      </p>
+      <p class="row">
+        <span class="row-label">Web</span>Vue 3 and Vue Router, React, Node, Express, REST,
+        GraphQL and Apollo Server, Bootstrap, Tailwind
+      </p>
+      <p class="row">
+        <span class="row-label">Cloud</span>Azure, IIS 10, Netlify, Render, AWS EC2
+      </p>
+      <p class="row">
+        <span class="row-label">Infra</span>Kubernetes, Talos Linux, Sidero Omni, Flux CD
+        (GitOps), Proxmox VE clusters, Docker, Podman and Compose, TrueNAS SCALE, OPNsense
+      </p>
+      <p class="row">
+        <span class="row-label">Databases</span>MySQL, PostgreSQL, MongoDB, SQLite
+      </p>
+      <p class="row">
+        <span class="row-label">Tooling</span>Git with GitHub and GitLab, CI/CD pipelines, Vite,
+        Vitest and Jest, Postman, Linux, Bash, PowerShell
+      </p>
+      <p class="row">
+        <span class="row-label">AI</span>Ollama and OpenWebUI for locally hosted models, Claude,
+        ChatGPT
+      </p>
+    </section>
+
+    <section>
+      <h2>Experience</h2>
+
+      <div class="entry">
+        <div class="entry-head">
+          <span class="entry-title">Software Developer</span>
+          <span class="entry-meta">06/2024 - Present</span>
+        </div>
+        <div class="entry-sub">Sunbelt Computer Software - Remote</div>
+        <ul>
+          <li>
+            Build features into the PL/B language runtime, a long-lived C and C++ codebase, where
+            every change is inherited by all applications written in the language.
+          </li>
+          <li>
+            Wrote a regular expression engine from scratch in C for that runtime, supporting
+            grouping, backtracking and replacement - a lighter alternative to PCRE2 for an
+            environment PCRE2 could not serve.
+          </li>
+          <li>
+            Delivered three legacy site modernizations end to end: rewrites, refactors and
+            ground-up builds to client specification, migrating long-running code to modern
+            standards on Azure and IIS 10, with responsive and cross-browser retrofits.
+          </li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <span class="entry-title">Executive Chef</span>
+          <span class="entry-meta">04/2015 - 09/2023</span>
+        </div>
+        <div class="entry-sub">The Palate Restaurant - Fredericton, NB</div>
+        <ul>
+          <li>
+            Led and mentored a full kitchen staff, holding turnover low in critical positions, and
+            grew revenue to $1.1 million through menu engineering driven by market research.
+          </li>
+          <li>
+            Owned food and labour cost control, inventory systems and vendor coordination against
+            a fixed budget.
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Selected Projects</h2>
+
+      <div class="entry">
+        <div class="entry-head">
+          <span class="entry-title">PL/B Regex Engine</span>
+          <span class="entry-meta">C, parsing, backtracking</span>
+        </div>
+        <div class="entry-sub">
+          Written from scratch in C for the PL/B runtime. Lighter than PCRE2, still supporting
+          grouping, backtracking and replacement. Closed source.
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <span class="entry-title">OpenAI Chat App</span>
+          <span class="entry-meta">Vue 3, Vite, Express</span>
+        </div>
+        <div class="entry-sub">
+          Text and image chat client for the OpenAI API; an Express backend keeps the API key
+          server-side. github.com/CookingMeister/openai-vue-app
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Homelab and Infrastructure</h2>
+      <ul>
+        <li>
+          Kubernetes running on Talos Linux, machines and clusters managed with Sidero Omni, and
+          continuous delivery into the cluster by GitOps with Flux CD.
+        </li>
+        <li>
+          Proxmox VE cluster with TrueNAS SCALE storage, OPNsense firewall and routing, and
+          self-hosted DNS and DHCP. Local AI development on my own hardware with Ollama and
+          OpenWebUI, no third-party inference.
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Education</h2>
+
+      <div class="entry">
+        <div class="entry-head">
+          <span class="entry-title">Certificate, Full Stack Web Development</span>
+          <span class="entry-meta">2024</span>
+        </div>
+        <div class="entry-sub">
+          University of New Brunswick / edX - Fredericton, NB. Graduated top performer, 96%.
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <span class="entry-title">Bachelor of Arts, Psychology and Philosophy</span>
+          <span class="entry-meta">2002</span>
+        </div>
+        <div class="entry-sub">University of New Brunswick - Fredericton, NB</div>
+      </div>
+
+      <p class="note">
+        Canadian citizen, eligible for projects requiring higher levels of security clearance.
+      </p>
+    </section>
+  </body>
+</html>

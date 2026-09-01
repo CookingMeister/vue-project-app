@@ -1,18 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Meister Portfolio</title>
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
-      integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
-      crossorigin="anonymous"
+
+    <!--
+      Defaults for `vite dev`, where nothing is prerendered. `npm run build`
+      replaces everything between these markers with per-route tags.
+    -->
+    <!--head-start-->
+    <title>Shawn Meister - Full-Stack Developer</title>
+    <meta
+      name="description"
+      content="Full-stack developer in Fredericton, NB. Working across legacy and modern codebases - PHP, JavaScript, C, C++ and PL/B - modernizing long-running sites and building new ones to spec."
     />
+    <link rel="canonical" href="https://fullstackchef.dev/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="fullstackchef.dev" />
+    <meta property="og:title" content="Shawn Meister - Full-Stack Developer" />
+    <meta
+      property="og:description"
+      content="Former head chef turned full-stack developer. Legacy modernization, a regex engine in C, and a Proxmox homelab."
+    />
+    <meta property="og:url" content="https://fullstackchef.dev/" />
+    <meta property="og:image" content="https://fullstackchef.dev/img/profile.png" />
+    <meta property="og:image:alt" content="Shawn Meister smiling outdoors beside the water" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!--head-end-->
+
+    <!-- Route-independent, so outside the injected block. -->
+    <meta name="author" content="Shawn Meister" />
+    <meta name="theme-color" content="#0a1a2f" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/img/profile.png" />
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app"><!--app-html--></div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
